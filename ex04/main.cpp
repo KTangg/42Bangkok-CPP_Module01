@@ -6,7 +6,7 @@
 /*   By: spoolpra <spoolpra@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 23:13:17 by spoolpra          #+#    #+#             */
-/*   Updated: 2022/04/29 09:43:29 by spoolpra         ###   ########.fr       */
+/*   Updated: 2022/04/29 10:09:13 by spoolpra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,16 @@ void	sedFile(std::ifstream &ifs, std::ofstream &ofs, std::string s1, std::string
 	// Read All data in infile stream and collect in read_data string
 	while (std::getline(ifs, buffer))
 	{
-		read_data = read_data + buffer + "\n";
+		read_data.append(buffer);
+		// If file already EOF then no more newline
+		if (!ifs.eof())
+			read_data.append("\n");
+	}
+	// Handling empty s1 case
+	if (s1.empty())
+	{
+		ofs << read_data;
+		return ;
 	}
 	// Printing data to outfile stream
 	do
@@ -38,6 +47,7 @@ void	sedFile(std::ifstream &ifs, std::ofstream &ofs, std::string s1, std::string
 		}
 		else
 		{
+			// Write the rest of data
 			ofs << read_data;
 			break ;
 		}
